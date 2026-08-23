@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LEOWOOD | Price Calculator</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
+:root{--green:#143f17;--green2:#1d5b23;--green3:#eaf2ea;--ink:#17211e;--muted:#71807a;--line:#e3e9e6;--bg:#f5f7f6;--white:#fff;--gold:#b48b45;--danger:#b54747;--shadow:0 12px 35px rgba(13,75,59,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Prompt,Arial,sans-serif;font-size:14px}.top{height:76px;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;position:sticky;top:0;z-index:20;box-shadow:0 4px 20px rgba(0,0,0,.12)}.brand{display:flex;align-items:center;gap:14px}.brand-mark{width:42px;height:42px;border:1px solid rgba(255,255,255,.3);border-radius:10px;display:grid;place-items:center;font-weight:700;letter-spacing:-1px}.brand-name{font-weight:700;letter-spacing:1.2px;font-size:18px}.brand-sub{font-size:10px;color:#c9ddd6;letter-spacing:.5px}.top-actions{display:flex;gap:8px}.top-btn{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;border-radius:8px;padding:8px 13px;font-family:inherit;cursor:pointer}.hero{background:linear-gradient(135deg,var(--green),#0b3d31);color:#fff;padding:36px 5vw 42px}.hero-inner{max-width:1240px;margin:auto}.eyebrow{font-size:11px;letter-spacing:1.8px;color:#b9d7cc;text-transform:uppercase}.hero h1{font-size:31px;line-height:1.2;margin:7px 0}.hero p{margin:0;color:#d5e5df;font-size:13px}.wrap{max-width:1240px;margin:-24px auto 50px;padding:0 18px;position:relative}.steps{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:18px}.step{padding:13px 15px;border-right:1px solid var(--line);display:flex;gap:10px;align-items:center}.step:last-child{border-right:0}.step-num{width:27px;height:27px;border-radius:50%;background:var(--green3);color:var(--green);display:grid;place-items:center;font-weight:700;font-size:11px}.step b{font-size:12px}.step small{display:block;color:var(--muted);font-size:10px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:18px;align-items:start}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 5px 24px rgba(13,75,59,.045);margin-bottom:18px}.title{display:flex;align-items:flex-start;gap:11px;margin-bottom:18px}.title-icon{width:34px;height:34px;border-radius:9px;background:var(--green3);color:var(--green);display:grid;place-items:center;font-weight:700}.title h2{font-size:16px;margin:0 0 2px}.title p{margin:0;color:var(--muted);font-size:11px}.grid{display:grid;gap:14px}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}label{font-size:12px;color:#4e5b56;font-weight:500;display:flex;flex-direction:column;gap:6px}select,input{width:100%;height:42px;border:1px solid #d7e0dc;border-radius:8px;padding:0 11px;background:#fff;color:var(--ink);font:inherit;outline:none;transition:.18s}select:focus,input:focus{border-color:var(--green2);box-shadow:0 0 0 3px rgba(20,102,83,.1)}select option:disabled{color:#a5afab}.product-note{margin-top:14px;padding:11px 13px;background:#f7faf8;border:1px solid #e3eee9;border-radius:9px;color:#50635b;font-size:11px}.product-note b{color:var(--green)}.room{display:grid;grid-template-columns:1.4fr 1fr 1fr 110px 38px;gap:9px;align-items:end;background:#fafcfb;border:1px solid var(--line);border-radius:10px;padding:11px;margin-bottom:9px}.room-result{height:42px;border:1px solid var(--line);border-radius:8px;background:#f3f7f5;display:flex;align-items:center;padding:0 10px;color:var(--green);font-weight:600;font-size:12px}.icon-btn{height:42px;border:1px solid var(--line);background:#fff;border-radius:8px;color:#7d8783;font-size:18px;cursor:pointer}.icon-btn:hover{color:var(--danger);border-color:#e5caca}.add-btn{border:1px dashed #b7cbc3;background:#f7fbf9;color:var(--green);border-radius:9px;padding:10px 14px;font-family:inherit;font-weight:600;cursor:pointer}.area-box{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:14px}.metric{background:#f7f9f8;border-radius:9px;padding:12px}.metric small{display:block;color:var(--muted);font-size:10px}.metric b{display:block;margin-top:3px;font-size:15px;color:var(--green)}.extras{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.summary{position:sticky;top:94px}.summary-card{background:var(--green);color:#fff;border-radius:15px;padding:22px;box-shadow:0 14px 40px rgba(13,75,59,.18);margin-bottom:14px}.summary-label{font-size:11px;color:#bdd4cc}.total{font-size:32px;font-weight:700;letter-spacing:-.7px;margin:4px 0 17px}.summary-row{display:flex;justify-content:space-between;gap:15px;padding:9px 0;border-top:1px solid rgba(255,255,255,.13);font-size:12px}.summary-row span:first-child{color:#c9dcd6}.summary-row strong{font-weight:500}.summary-total{border-top:1px solid rgba(255,255,255,.3);margin-top:5px;padding-top:12px;display:flex;justify-content:space-between;font-size:13px}.summary-total b{font-size:17px}.actions-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}.primary,.secondary{width:100%;height:44px;border-radius:9px;font-family:inherit;font-weight:600;cursor:pointer}.primary{background:var(--green);color:#fff}.secondary{margin-top:8px;background:#fff;color:var(--green);border:1px solid #cbd9d4}.primary:hover{background:#0a3d31}.secondary:hover{background:var(--green3)}.breakdown-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed #e0e5e2;font-size:12px}.breakdown-row:last-child{border-bottom:0}.discount{color:#b06b36}.footer{text-align:center;color:#89958f;font-size:10px;padding:10px 0 30px}.modal{position:fixed;inset:0;background:rgba(10,27,22,.55);z-index:50;display:flex;align-items:center;justify-content:center;padding:20px}.modal.hidden{display:none}.modal-box{width:min(900px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:14px;padding:25px}.modal-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:18px}.modal-head h2{margin:0;font-size:20px}.close{background:none;border:0;font-size:27px;color:#777;cursor:pointer}.quote-head{display:flex;justify-content:space-between;padding-bottom:15px;border-bottom:2px solid var(--green);margin-bottom:15px}.quote table{width:100%;border-collapse:collapse;font-size:11px}.quote th,.quote td{border:1px solid #dce3df;padding:8px}.quote th{background:#f3f7f5;text-align:left}.quote-total{text-align:right;margin-top:15px;line-height:1.8}.modal-actions{margin-top:20px}.toast{position:fixed;right:22px;bottom:22px;background:#17211e;color:#fff;padding:11px 16px;border-radius:9px;font-size:12px;opacity:0;transform:translateY(10px);transition:.2s;z-index:80}.toast.show{opacity:1;transform:none}@media(max-width:980px){.layout{grid-template-columns:1fr}.summary{position:static}.g3{grid-template-columns:repeat(2,1fr)}.extras{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.top{padding:0 15px}.top-actions{display:none}.hero{padding:27px 18px 35px}.hero h1{font-size:25px}.wrap{padding:0 10px;margin-top:-17px}.steps{grid-template-columns:repeat(2,1fr)}.step{border-bottom:1px solid var(--line)}.g3,.g2,.extras{grid-template-columns:1fr}.card{padding:16px}.room{grid-template-columns:1fr 1fr}.room label:first-child{grid-column:1/-1}.room-result{grid-column:1}.area-box{grid-template-columns:1fr 1fr}.brand-name{font-size:15px}}@media print{body{background:#fff}.top,.hero,.wrap{display:none!important}.modal{position:static;background:#fff;padding:0;display:block!important}.modal-box{width:100%;max-height:none;box-shadow:none}.modal-actions,.close{display:none}}
+
+/* Customer input + customer-ready summary image */
+.customer-field{margin-bottom:16px;padding:14px;background:var(--green3);border:1px solid #dce9dc;border-radius:10px}.customer-field label{color:var(--green);font-weight:600}.customer-field input{background:#fff}.summary-image-stage{position:fixed;left:-100000px;top:0;width:1080px;z-index:-1}.summary-image{width:1080px;background:#fff;color:#17211e;font-family:Prompt,Arial,sans-serif;padding:48px}.si-head{background:var(--green);color:#fff;border-radius:20px;padding:28px 32px;display:flex;justify-content:space-between;gap:30px;align-items:flex-start}.si-brand{font-size:27px;font-weight:700;letter-spacing:1px}.si-sub{font-size:12px;opacity:.82;margin-top:2px}.si-title{font-size:24px;font-weight:700;text-align:right}.si-date{font-size:12px;opacity:.8;text-align:right;margin-top:4px}.si-customer{margin-top:18px;padding:18px 22px;border:1px solid #dce9dc;border-radius:14px;background:#f7faf7}.si-customer-label{font-size:11px;color:#71807a}.si-customer-name{font-size:20px;font-weight:700;color:var(--green);margin-top:3px}.si-section{margin-top:18px;border:1px solid #e3e9e6;border-radius:14px;overflow:hidden}.si-section-title{padding:12px 18px;background:#f0f5f0;color:var(--green);font-size:13px;font-weight:700}.si-grid{display:grid;grid-template-columns:repeat(3,1fr)}.si-cell{padding:13px 18px;border-top:1px solid #edf1ee;border-right:1px solid #edf1ee}.si-cell:nth-child(3n){border-right:0}.si-label{font-size:10px;color:#71807a}.si-value{font-size:13px;font-weight:600;margin-top:3px}.si-room-head,.si-room-row{display:grid;grid-template-columns:1.6fr 1fr 1fr}.si-room-head{background:#f8faf8;color:#71807a;font-size:10px;font-weight:600}.si-room-head div,.si-room-row div{padding:10px 18px;border-bottom:1px solid #edf1ee}.si-room-row:last-child div{border-bottom:0}.si-extra{display:flex;justify-content:space-between;gap:20px;padding:10px 18px;border-bottom:1px dashed #e3e9e6;font-size:12px}.si-extra:last-child{border-bottom:0}.si-extra-detail{color:#71807a;font-size:10px;margin-top:2px}.si-total{margin-top:18px;background:var(--green);color:#fff;border-radius:16px;padding:22px 26px;display:flex;justify-content:space-between;align-items:center}.si-total-label{font-size:13px}.si-total-value{font-size:30px;font-weight:700}.si-note{font-size:10px;color:#8a938f;text-align:center;margin-top:14px}.si-pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#eaf2ea;color:var(--green);font-size:10px;font-weight:600}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <div class="brand-mark">LW</div>
+    <div><div class="brand-name">LEOWOOD</div><div class="brand-sub">PRICE CALCULATOR</div></div>
+  </div>
+  <div class="top-actions"><button class="top-btn" id="saveBtn">บันทึกการคำนวณ</button><button class="top-btn" id="resetBtn">เริ่มใหม่</button></div>
+</header>
+<section class="hero"><div class="hero-inner"><div class="eyebrow">Professional Flooring Calculator</div><h1>ระบบคำนวณพื้นที่และราคา</h1><p>คำนวณจำนวนสินค้า และค่าใช้จ่าย สินค้าไม้พื้นแบบคร่าวๆ</p></div></section>
+
+<main class="wrap">
+  <div class="steps">
+    <div class="step"><span class="step-num">01</span><div><b>เลือกสินค้า</b><small>รุ่น · สี · ความหนา</small></div></div>
+    <div class="step"><span class="step-num">02</span><div><b>คำนวณพื้นที่</b><small>เพิ่มได้หลายพื้นที่</small></div></div>
+    <div class="step"><span class="step-num">03</span><div><b>ค่าใช้จ่าย</b><small>บริการเพิ่มเติม · ส่วนลด</small></div></div>
+    <div class="step"><span class="step-num">04</span><div><b>ส่งสรุปราคา</b><small>สร้างภาพสรุป · PNG</small></div></div>
+  </div>
+
+  <div class="layout">
+    <div>
+      <section class="card">
+        <div class="title"><div class="title-icon">01</div><div><h2>ข้อมูลสินค้า</h2><p>เลือกราคา รุ่น ความหนา รูปแบบการปู และสีที่ตรงกับสินค้า</p></div></div>
+         <div class="customer-field"><label>ชื่อลูกค้า / ชื่อบริษัท<input id="customerName" type="text" placeholder="กรอกชื่อลูกค้าหรือชื่อบริษัท"></label></div>
+        <div class="grid g3">
+          <label>ประเภทราคา<select id="customerType"></select></label>
+          <label>รุ่นสินค้า<select id="model"></select></label>
+          <label>ความหนา<select id="thickness"></select></label>
+          <label>รูปแบบการปู<select id="pattern"></select></label>
+          <label>สี<select id="color"></select></label>
+          <label>รูปแบบราคา<select id="priceMode"><option value="install">พร้อมติดตั้ง</option><option value="wood">เฉพาะสินค้า</option></select></label>
+        </div>
+        <div id="productInfo" class="product-note"></div>
+      </section>
+
+      <section class="card">
+        <div class="title"><div class="title-icon">02</div><div><h2>คำนวณพื้นที่</h2><p>กรอกพื้นที่ ตร.ม. ได้โดยตรง ระบบจะรวมพื้นที่และคำนวณจำนวนกล่องอัตโนมัติ</p></div></div>
+        <div id="rooms"></div>
+        <button class="add-btn" id="addRoom">＋ เพิ่มพื้นที่ / ห้อง</button>
+        <div class="grid g2" style="margin-top:14px">
+          <label>เผื่อเศษ<select id="wasteSelect"><option value="0.05">เผื่อเศษ 5%</option><option value="0.07">เผื่อเศษ 7%</option><option value="0.18">เผื่อเศษ 18%</option></select></label>
+          <div class="metric"><small>พื้นที่จริง</small><b id="areaTotal">0.00 ตร.ม.</b></div>
+        </div>
+        <div class="area-box" style="grid-template-columns:1fr">
+          <div class="metric"><small>จำนวนกล่อง</small><b id="boxes">0 กล่อง</b></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="title"><div class="title-icon">03</div><div><h2>ค่าใช้จ่ายเพิ่มเติม</h2><p>ระบุเฉพาะรายการที่ต้องการคิดเพิ่มจากราคาสินค้า</p></div></div>
+        <div class="extras">
+          <label>รื้อพื้นเดิม<select id="oldFloorType"><option value="0">ไม่รื้อ</option><option value="80">รื้อพื้นลามิเนตเดิม (แบบคลิ๊กล็อค) — 80 บาท/ตร.ม.</option><option value="200">รื้อกระเบื้องเดิม — 200 บาท/ตร.ม.</option><option value="80">รื้อพื้น SPC เดิม (แบบคลิ๊กล็อค) — 80 บาท/ตร.ม.</option><option value="150">รื้อกระเบื้องยางทากาว — 150 บาท/ตร.ม.</option><option value="150">รื้อพื้นปาร์เก้ — 150 บาท/ตร.ม.</option></select><input id="oldFloorQty" type="number" min="0" step=".01" value="0" placeholder="จำนวน ตร.ม."></label>
+          <label>Self-Leveling<select id="levelType"><option value="0">ไม่ปรับ</option><option value="350">Self-Leveling (แบบบางไม่เกิน 5 มม.) — 350 บาท/ตร.ม.</option><option value="650">Self-Leveling (แบบหนา 5 - 10 มม.) — 650 บาท/ตร.ม.</option></select><input id="levelQty" type="number" min="0" step=".01" value="0" placeholder="จำนวน ตร.ม."></label>
+          <label>ย้าย/ยกของ (ชิ้น)<input id="movingQty" type="number" min="0" step="1" value="0"></label>
+          <label>ตัดตีนประตู (บาน)<input id="doorQty" type="number" min="0" step="1" value="0"></label>
+          <label>รื้อบัวเดิม (เมตร)<input id="oldSkirtingQty" type="number" min="0" step=".01" value="0"></label>
+          <label>ค่าเดินทาง (บาท)<input id="travel" type="number" min="0" step="1" value="0"></label>
+          <label>กรณีพื้นที่ต่ำกว่า 20 ตร.ม.<input id="lowAreaCharge" type="text" value="ครบ 20 ตร.ม. — ไม่เสียส่วนต่าง" readonly></label>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="title"><div class="title-icon">04</div><div><h2>รายละเอียดราคา</h2><p>ตรวจสอบรายละเอียดก่อนสร้างใบเสนอราคา</p></div></div>
+        <div id="breakdown"></div>
+      </section>
+    </div>
+
+    <aside class="summary">
+      <div class="summary-card">
+        <div class="summary-label">ยอดสุทธิ / NET TOTAL</div>
+        <div id="grandTotal" class="total">฿0.00</div>
+        <div class="summary-row"><span>พื้นที่</span><strong id="sumArea">0.00 ตร.ม.</strong></div>
+        <div class="summary-row"><span>จำนวนสินค้า</span><strong id="sumBoxes">0 กล่อง</strong></div>
+        <div class="summary-row"><span>ค่าสินค้า</span><strong id="sumProduct">฿0.00</strong></div>
+        <div class="summary-row"><span>ค่าใช้จ่ายเพิ่มเติม</span><strong id="sumExtra">฿0.00</strong></div>
+        <div class="summary-row"><span>ส่วนลด</span><strong id="sumDiscount">฿0.00</strong></div>
+        <div class="summary-total"><span>รวมทั้งสิ้น</span><b id="sumTotal">฿0.00</b></div>
+      </div>
+      <div class="actions-card">
+         <button class="primary" id="summaryImageBtn">สร้างภาพสรุปรายการราคา</button>
+         <div style="font-size:10px;color:var(--muted);text-align:center;margin-top:9px">สร้างเป็นไฟล์ PNG สำหรับส่งให้ลูกค้าทาง LINE หรือแชต</div>
+       </div>
+    </aside>
+  </div>
+  <div class="footer">LEOWOOD Price Calculator · Internal Sales Tool</div>
+</main>
+
+<div class="summary-image-stage"><div id="summaryImage" class="summary-image"></div></div>
+<div id="toast" class="toast"></div>
+
+<script>
+const DATA={products:[{"priceType":"ราคาปกติ","model":"Prestige","thickness":"5 มม.","pattern":"ปูตรง","sqmPerBox":2.67,"wood":459,"woodBox":1225.53,"install":659,"installBox":1759.53,"colors":["Tango Oak","White Oak","Light Beech","Natural Oak","Light Grey","Grey Oak","Rustic Elm","Golden Brown"]},{"priceType":"ราคาปกติ","model":"Prestige","thickness":"5 มม.","pattern":"ปูก้างปลา","sqmPerBox":2.7,"wood":550,"woodBox":1485,"install":850,"installBox":2295,"colors":["White Oak","Light Beech","Natural Oak","Grey Oak","Golden Brown"]},{"priceType":"ราคาปกติ","model":"Prestige+","thickness":"5 มม.","pattern":"ปูตรง","sqmPerBox":2.67,"wood":475,"woodBox":1268.25,"install":675,"installBox":1802.25,"colors":["Smooth Oak"]},{"priceType":"ราคาปกติ","model":"Ultima","thickness":"6 มม.","pattern":"ปูตรง","sqmPerBox":2.76,"wood":695,"woodBox":1918.2,"install":895,"installBox":2470.2,"colors":["Royal Beech","Urban Beige","Light Oak","Fortuna Gold","Sand Brush","Ivory Oak","Dark Brown"]},{"priceType":"ราคาปกติ","model":"Ultima","thickness":"6 มม.","pattern":"ปูก้างปลา","sqmPerBox":2.25,"wood":695,"woodBox":1563.75,"install":995,"installBox":2238.75,"colors":["Royal Beech","Urban Beige","Light Oak","Ivory Oak","Dark Brown"]},{"priceType":"ราคาปกติ","model":"Prima","thickness":"8 มม.","pattern":"ปูตรง","sqmPerBox":2.07,"wood":890,"woodBox":1842.3,"install":1110,"installBox":2297.7,"colors":["Royal Beech","White Oak","Light Oak","Golden Brown","Grey Oak","Dark Brown"]},{"priceType":"ราคาปกติ","model":"ISF - Nimbus","thickness":"5 มม.","pattern":"ปูตรง","sqmPerBox":2.2,"wood":760,"woodBox":1672,"install":960,"installBox":2112,"colors":["Smoky Grey","Maple Wood","Ivory White","Golden Sand","Deep Oak","Creamy Ash"]},{"priceType":"ราคา Member","model":"Prestige","thickness":"5 มม.","pattern":"ปูตรง","sqmPerBox":2.67,"wood":413.1,"woodBox":1102.98,"install":593.1,"installBox":1583.58,"colors":["Tango Oak","White Oak","Light Beech","Natural Oak","Light Grey","Grey Oak","Rustic Elm","Golden Brown"]},{"priceType":"ราคา Member","model":"Prestige","thickness":"5 มม.","pattern":"ปูก้างปลา","sqmPerBox":2.7,"wood":495,"woodBox":1336.5,"install":765,"installBox":2065.5,"colors":["White Oak","Light Beech","Natural Oak","Grey Oak","Golden Brown"]},{"priceType":"ราคา Member","model":"Prestige+","thickness":"5 มม.","pattern":"ปูตรง","sqmPerBox":2.67,"wood":427.5,"woodBox":1141.43,"install":607.5,"installBox":1622.03,"colors":["Smooth Oak"]},{"priceType":"ราคา Member","model":"Ultima","thickness":"6 มม.","pattern":"ปูตรง","sqmPerBox":2.76,"wood":625.5,"woodBox":1726.38,"install":805.5,"installBox":2223.18,"colors":["Royal Beech","Urban Beige","Light Oak","Fortuna Gold","Sand Brush","Ivory Oak","Dark Brown"]},{"priceType":"ราคา Member","model":"Ultima","thickness":"6 มม.","pattern":"ปูก้างปลา","sqmPerBox":2.25,"wood":625.5,"woodBox":1407.38,"install":895.5,"installBox":2014.88,"colors":["Royal Beech","Urban Beige","Light Oak","Ivory Oak","Dark Brown"]},{"priceType":"ราคา Member","model":"Prima","thickness":"8 มม.","pattern":"ปูตรง","sqmPerBox":2.07,"wood":801,"woodBox":1658.07,"install":999,"installBox":2067.93,"colors":["Royal Beech","White Oak","Light Oak","Golden Brown","Grey Oak","Dark Brown"]},{"priceType":"ราคา Member","model":"ISF - Nimbus","thickness":"5 มม.","pattern":"ปูตรง","sqmPerBox":2.2,"wood":684,"woodBox":1504.8,"install":864,"installBox":1900.8,"colors":["Smoky Grey","Maple Wood","Ivory White","Golden Sand","Deep Oak","Creamy Ash"]},{"priceType":"ราคา Partner","model":"Prestige","thickness":"5 มม.","pattern":"ปูตรง","sqmPerBox":2.67,"wood":367.19,"woodBox":980.42,"install":553.56,"installBox":1478.01,"colors":["Tango Oak","White Oak","Light Beech","Natural Oak","Light Grey","Grey Oak","Rustic Elm","Golden Brown"]},{"priceType":"ราคา Partner","model":"Prestige","thickness":"5 มม.","pattern":"ปูก้างปลา","sqmPerBox":2.7,"wood":440,"woodBox":1188,"install":680,"installBox":1836,"colors":["White Oak","Light Beech","Natural Oak","Grey Oak","Golden Brown"]},{"priceType":"ราคา Partner","model":"Prestige+","thickness":"5 มม.","pattern":"ปูตรง","sqmPerBox":2.67,"wood":380,"woodBox":1014.6,"install":540,"installBox":1441.8,"colors":["Smooth Oak"]},{"priceType":"ราคา Partner","model":"Ultima","thickness":"6 มม.","pattern":"ปูตรง","sqmPerBox":2.76,"wood":556,"woodBox":1534.56,"install":716,"installBox":1976.16,"colors":["Royal Beech","Urban Beige","Light Oak","Fortuna Gold","Sand Brush","Ivory Oak","Dark Brown"]},{"priceType":"ราคา Partner","model":"Ultima","thickness":"6 มม.","pattern":"ปูก้างปลา","sqmPerBox":2.25,"wood":556,"woodBox":1251,"install":796,"installBox":1791,"colors":["Royal Beech","Urban Beige","Light Oak","Ivory Oak","Dark Brown"]},{"priceType":"ราคา Partner","model":"Prima","thickness":"8 มม.","pattern":"ปูตรง","sqmPerBox":2.07,"wood":712,"woodBox":1473.84,"install":888,"installBox":1838.16,"colors":["Royal Beech","White Oak","Light Oak","Golden Brown","Grey Oak","Dark Brown"]},{"priceType":"ราคา Partner","model":"ISF - Nimbus","thickness":"5 มม.","pattern":"ปูตรง","sqmPerBox":2.2,"wood":608,"woodBox":1337.6,"install":768,"installBox":1689.6,"colors":["Smoky Grey","Maple Wood","Ivory White","Golden Sand","Deep Oak","Creamy Ash"]}],customerTypes:[{id:"ราคาปกติ",name:"ราคาปกติ"},{id:"ราคา Member",name:"ราคา Member"},{id:"ราคา Partner",name:"ราคา Partner"},{id:"โปรโมชั่นเพิ่มเติม",name:"ราคาโปรโมชั่นเพิ่มเติม"}],thicknesses:["5 มม.","6 มม.","8 มม."]};
+let rooms=[{name:"พื้นที่ 1",area:0}];
+const $=id=>document.getElementById(id),num=x=>Number(x)||0,money=x=>"฿"+Number(x||0).toLocaleString("th-TH",{minimumFractionDigits:2,maximumFractionDigits:2});
+function toast(t){const x=$("toast");x.textContent=t;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),1800)}
+function currentProducts(){
+  const t=$("customerType").value;
+  return t==="โปรโมชั่นเพิ่มเติม"?DATA.products.filter(p=>p.priceType==="ราคาปกติ"):DATA.products.filter(p=>p.priceType===t);
+}
+function models(){return [...new Set(currentProducts().map(p=>p.model))]}
+function validProductsForSelection(){return currentProducts().filter(p=>p.model===$("model").value&&p.thickness===$("thickness").value)}
+function selectedProduct(){
+  return validProductsForSelection().find(p=>p.pattern===$("pattern").value)||null;
+}
+function renderModels(keep=true){
+  const old=$("model").value;
+  const ms=models();
+  $("model").innerHTML=ms.map(x=>`<option value="${x}">${x}</option>`).join("");
+  if(keep && ms.includes(old)) $("model").value=old;
+  renderThicknesses();
+}
+function renderThicknesses(keep=true){
+  const old=$("thickness").value;
+  const model=$("model").value;
+  const valid=[...new Set(currentProducts().filter(p=>p.model===model).map(p=>p.thickness))];
+  $("thickness").innerHTML=DATA.thicknesses.map(x=>`<option value="${x}" ${valid.includes(x)?"":"disabled"}>${x}</option>`).join("");
+  if(keep && valid.includes(old)) $("thickness").value=old;
+  else if(valid.length) $("thickness").value=valid[0];
+  renderPatterns();
+}
+function renderPatterns(){
+  const ps=currentProducts().filter(p=>p.model===$("model").value&&p.thickness===$("thickness").value);
+  const old=$("pattern").value;
+  const patterns=[...new Set(ps.map(p=>p.pattern))];
+  $("pattern").innerHTML=patterns.map(x=>`<option value="${x}">${x}</option>`).join("")||'<option value="">ไม่มีรูปแบบที่ตรงกับข้อมูล</option>';
+  if(patterns.includes(old)) $("pattern").value=old;
+  renderColors();
+  updateInfo();
+}
+function renderColors(){
+  const p=selectedProduct();
+  const colors=p?p.colors:[];
+  $("color").innerHTML=[...colors,"ยังไม่ตัดสินใจเลือกสี"].map(x=>`<option value="${x}">${x}</option>`).join("")||'<option value="">กรุณาเลือกรุ่น / ความหนา / รูปแบบการปู</option>';
+}
+function updateInfo(){
+  const p=selectedProduct();
+  if(!p){
+    $("productInfo").innerHTML='<b>กรุณาเลือกรุ่น ความหนา และรูปแบบการปูที่ตรงกับข้อมูลสินค้า</b>';
+    return;
+  }
+  const mode=$("priceMode").value;
+  const price=mode==="install"?p.install:p.wood;
+  const box=mode==="install"?p.installBox:p.woodBox;
+  const modeText=mode==="install"?"พร้อมติดตั้ง":"เฉพาะสินค้า";
+  const promo=$("customerType").value==="โปรโมชั่นเพิ่มเติม";
+  $("productInfo").innerHTML=promo
+    ? `<b>${p.model} ${p.thickness}</b> · ${p.pattern} · ราคานี้ยังไม่มีข้อมูลโปรโมชั่นเพิ่มเติม`
+    : `<b>${p.model} ${p.thickness}</b> · ${p.pattern} · ${modeText} <b>${money(price)}/ตร.ม.</b> · <b>${money(box)}/กล่อง</b> · 1 กล่องปูได้ ${p.sqmPerBox.toFixed(2)} ตร.ม.`;
+}
+function renderRooms(){
+  $("rooms").innerHTML=rooms.map((r,i)=>`<div class="room" style="grid-template-columns:1.4fr 1fr 38px">
+    <label>ชื่อพื้นที่<input data-i="${i}" data-k="name" value="${r.name}"></label>
+    <label>พื้นที่ (ตร.ม.)<input type="number" min="0" step=".01" data-i="${i}" data-k="area" value="${r.area||""}"></label>
+    <button class="icon-btn" data-remove="${i}">×</button>
+  </div>`).join("");
+  $("rooms").querySelectorAll("input[data-k]").forEach(e=>e.oninput=()=>{rooms[+e.dataset.i][e.dataset.k]=e.dataset.k==="name"?e.value:num(e.value);calculate()});
+  $("rooms").querySelectorAll("[data-remove]").forEach(e=>e.onclick=()=>{if(rooms.length>1){rooms.splice(+e.dataset.remove,1);renderRooms();calculate()}});
+}
+function calculate(){
+  const p=selectedProduct();
+  const area=rooms.reduce((s,r)=>s+num(r.area),0);
+  const waste=num($("wasteSelect")?.value);
+  const orderArea=area*(1+waste);
+  const boxes=p&&p.sqmPerBox>0?Math.ceil(orderArea/p.sqmPerBox):0;
+  const actual=p?boxes*p.sqmPerBox:0;
+  const promo=$("customerType").value==="โปรโมชั่นเพิ่มเติม";
+  const price=p&&$("priceMode").value==="install"?p.install:(p?p.wood:0);
+  const productTotal=promo?0:actual*price;
+  const oldFloorName=$("oldFloorType")?.selectedOptions[0]?.textContent||"";
+  const levelName=$("levelType")?.selectedOptions[0]?.textContent||"";
+  const valueOf=id=>num($(id)?.value);
+  const lowAreaDiff=Math.max(0,20-area);
+  const lowAreaCharge=lowAreaDiff*300;
+  const extras=[
+    ["รื้อพื้นเดิม",valueOf("oldFloorQty")*valueOf("oldFloorType"),`${oldFloorName} · ${valueOf("oldFloorQty").toFixed(2)} ตร.ม.`],
+    ["Self-Leveling",valueOf("levelQty")*valueOf("levelType"),`${levelName} · ${valueOf("levelQty").toFixed(2)} ตร.ม.`],
+    ["ย้าย/ยกของ",valueOf("movingQty")*500,`${valueOf("movingQty")} ชิ้น × ฿500`],
+    ["ตัดตีนประตู",valueOf("doorQty")*500,`${valueOf("doorQty")} บาน × ฿500`],
+    ["รื้อบัวเดิม",valueOf("oldSkirtingQty")*20,`${valueOf("oldSkirtingQty").toFixed(2)} เมตร × ฿20`],
+    ["บัว 3 นิ้ว",valueOf("sk3Qty")*135,`${valueOf("sk3Qty")} เส้น × ฿135`],
+    ["บัว 4 นิ้ว",valueOf("sk4Qty")*150,`${valueOf("sk4Qty")} เส้น × ฿150`],
+    ["ตัวจบ",valueOf("endQty")*100,`${valueOf("endQty")} เส้น × ฿100`],
+    ["ค่าเดินทาง",valueOf("travel"),""],
+    ["กรณีพื้นที่ต่ำกว่า 20 ตร.ม.",lowAreaCharge,lowAreaDiff>0?`ขาด ${lowAreaDiff.toFixed(2)} ตร.ม. × ฿300 = ${money(lowAreaCharge)}`:"ครบ 20 ตร.ม. — ไม่เสียส่วนต่าง"]
+  ];
+  const extraTotal=extras.reduce((s,x)=>s+x[1],0);
+  const total=productTotal+extraTotal;
+  $("areaTotal").textContent=area.toFixed(2)+" ตร.ม.";
+  $("boxes").textContent=boxes+" กล่อง";
+  $("grandTotal").textContent=money(total);
+  $("sumArea").textContent=area.toFixed(2)+" ตร.ม.";
+  $("sumBoxes").textContent=boxes+" กล่อง";
+  $("sumProduct").textContent=money(productTotal);
+  $("sumExtra").textContent=money(extraTotal);
+  $("lowAreaCharge").value=lowAreaDiff>0?`ขาด ${lowAreaDiff.toFixed(2)} ตร.ม. × ฿300 = ${money(lowAreaCharge)}`:"ครบ 20 ตร.ม. — ไม่เสียส่วนต่าง";
+  $("sumDiscount").textContent=money(0);
+  $("sumTotal").textContent=money(total);
+  $("breakdown").innerHTML=[["ค่าสินค้า",productTotal],...extras.filter(x=>x[1]>0),["รวมทั้งสิ้น",total]].map(x=>`<div class="breakdown-row"><span>${x[0]}</span><b>${money(x[1])}</b></div>`).join("");
+  window.calc={p,area,waste,orderArea,boxes,actual,productTotal,extras,extraTotal,total};
+}
+function init(){
+  $("customerType").innerHTML=DATA.customerTypes.map(x=>`<option value="${x.id}">${x.name}</option>`).join("");
+  renderModels(false);
+  renderRooms();
+  bind();
+  calculate();
+}
+function bind(){
+  $("customerType").onchange=()=>{renderModels(false);calculate()};
+  $("model").onchange=()=>{renderThicknesses(false);calculate()};
+  $("thickness").onchange=()=>{renderPatterns();calculate()};
+  $("pattern").onchange=()=>{renderColors();updateInfo();calculate()};
+  $("priceMode").onchange=()=>{updateInfo();calculate()};
+  ["customerName","color","oldFloorQty","levelQty","movingQty","doorQty","oldSkirtingQty","sk3Qty","sk4Qty","endQty","travel"].forEach(id=>{const el=$(id);if(el)el.oninput=calculate;});
+  ["wasteSelect","oldFloorType","levelType"].forEach(id=>$(id).onchange=calculate);
+  $("addRoom").onclick=()=>{rooms.push({name:`พื้นที่ ${rooms.length+1}`,area:0});renderRooms();calculate()};
+  $("resetBtn").onclick=()=>{if(confirm("ต้องการเริ่มการคำนวณใหม่หรือไม่?"))location.reload()};
+  $("saveBtn").onclick=()=>{localStorage.setItem("lw_calc",JSON.stringify({customerName:$("customerName").value,rooms,priceType:$("customerType").value,model:$("model").value,thickness:$("thickness").value,pattern:$("pattern").value,color:$("color").value,priceMode:$("priceMode").value,waste:$("wasteSelect").value}));toast("บันทึกการคำนวณแล้ว")};
+  $("summaryImageBtn").onclick=downloadSummaryImage;
+}
+function escapeHtml(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
+function buildSummaryImage(){
+  calculate();
+  const c=window.calc,p=c.p;
+  if(!p){toast("กรุณาเลือกรุ่น ความหนา และรูปแบบการปูให้ถูกต้อง");return false}
+  const customer=$("customerName").value.trim()||"ไม่ได้ระบุชื่อ";
+  const priceType=$("customerType").value;
+  const modeText=$("priceMode").value==="install"?"พร้อมติดตั้ง":"เฉพาะสินค้า";
+  const price=$("priceMode").value==="install"?p.install:p.wood;
+  const boxPrice=$("priceMode").value==="install"?p.installBox:p.woodBox;
+  const roomRows=rooms.filter(r=>num(r.area)>0).map(r=>`<div class="si-room-row"><div>${escapeHtml(r.name||"พื้นที่")}</div><div>${num(r.area).toFixed(2)} ตร.ม.</div><div>${(num(r.area)*(1+c.waste)).toFixed(2)} ตร.ม.</div></div>`).join("")||`<div class="si-room-row"><div>ยังไม่ได้ระบุพื้นที่</div><div>0.00 ตร.ม.</div><div>0.00 ตร.ม.</div></div>`;
+  const extras=c.extras.filter(x=>x[1]>0).map(x=>`<div class="si-extra"><div><b>${escapeHtml(x[0])}</b><div class="si-extra-detail">${escapeHtml(x[2]||"")}</div></div><b>${money(x[1])}</b></div>`).join("");
+  const extrasSection=extras?`<div class="si-section"><div class="si-section-title">ค่าใช้จ่ายเพิ่มเติม</div><div class="si-extras">${extras}</div></div>`:"";
+  $("summaryImage").innerHTML=`
+    <div class="si-head"><div><div class="si-brand">LEOWOOD</div><div class="si-sub">PRICE SUMMARY · FLOORING CALCULATOR</div></div><div><div class="si-title">สรุปรายการราคา</div><div class="si-date">${new Date().toLocaleDateString("th-TH",{day:"2-digit",month:"2-digit",year:"numeric"})}</div></div></div>
+    <div class="si-customer"><div class="si-customer-label">ชื่อลูกค้า / ชื่อบริษัท</div><div class="si-customer-name">${escapeHtml(customer)}</div></div>
+    <div class="si-section"><div class="si-section-title">ข้อมูลสินค้า</div><div class="si-grid">
+      <div class="si-cell"><div class="si-label">ประเภทราคา</div><div class="si-value">${escapeHtml(priceType)}</div></div>
+      <div class="si-cell"><div class="si-label">รุ่นสินค้า</div><div class="si-value">${escapeHtml(p.model)}</div></div>
+      <div class="si-cell"><div class="si-label">ความหนา</div><div class="si-value">${escapeHtml(p.thickness)}</div></div>
+      <div class="si-cell"><div class="si-label">รูปแบบการปู</div><div class="si-value">${escapeHtml(p.pattern)}</div></div>
+      <div class="si-cell"><div class="si-label">สี</div><div class="si-value">${escapeHtml($("color").value)}</div></div>
+      <div class="si-cell"><div class="si-label">รูปแบบราคา</div><div class="si-value"><span class="si-pill">${modeText}</span></div></div>
+      <div class="si-cell"><div class="si-label">ราคา / ตร.ม.</div><div class="si-value">${money(price)}</div></div>
+      <div class="si-cell"><div class="si-label">ราคา / กล่อง</div><div class="si-value">${money(boxPrice)}</div></div>
+      <div class="si-cell"><div class="si-label">พื้นที่ต่อกล่อง</div><div class="si-value">${p.sqmPerBox.toFixed(2)} ตร.ม./กล่อง</div></div>
+    </div></div>
+    <div class="si-section"><div class="si-section-title">พื้นที่และจำนวนกล่อง</div><div class="si-room-head"><div>ชื่อพื้นที่</div><div>พื้นที่จริง</div><div>พื้นที่หลังเผื่อเศษ</div></div>${roomRows}<div class="si-grid">
+      <div class="si-cell"><div class="si-label">พื้นที่จริงรวม</div><div class="si-value">${c.area.toFixed(2)} ตร.ม.</div></div>
+      <div class="si-cell"><div class="si-label">เผื่อเศษ</div><div class="si-value">${(c.waste*100).toFixed(0)}%</div></div>
+      <div class="si-cell"><div class="si-label">จำนวนกล่องต้องใช้จริง</div><div class="si-value">${c.boxes} กล่อง</div></div>
+    </div></div>
+    ${extrasSection}
+    <div class="si-total"><div><div class="si-total-label">ราคารวมสินค้า ${money(c.productTotal)}</div><div class="si-total-label" style="opacity:.75;margin-top:5px">รวมค่าใช้จ่ายเพิ่มเติม ${money(c.extraTotal)}</div><div class="si-total-label" style="font-weight:700;margin-top:8px">สรุปราคารวมสุทธิ</div></div><div class="si-total-value">${money(c.total)}</div></div>
+    <div class="si-note">ราคานี้เป็นราคาประมาณการ และอาจเปลี่ยนแปลงตามการประเมินหน้างานและเงื่อนไขการขายจริง</div>`;
+  return true;
+}
+async function downloadSummaryImage(){
+  if(typeof html2canvas!=="function"){toast("กำลังโหลดระบบสร้างภาพ กรุณาลองใหม่อีกครั้ง");return}
+  if(!buildSummaryImage())return;
+  const btn=$("summaryImageBtn"),oldText=btn.textContent;
+  btn.disabled=true;btn.textContent="กำลังสร้างภาพ...";
+  try{
+    if(document.fonts&&document.fonts.ready) await document.fonts.ready;
+    await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+    const canvas=await html2canvas($("summaryImage"),{scale:2,useCORS:true,backgroundColor:"#ffffff",logging:false,windowWidth:1080});
+    const link=document.createElement("a");
+    const safeCustomer=($("customerName").value.trim()||"ลูกค้า").replace(/[^ก-๙A-Za-z0-9 _-]/g,"").trim().replace(/\s+/g,"-");
+    link.download=`LEOWOOD-สรุปราคา-${safeCustomer||"ลูกค้า"}-${new Date().toISOString().slice(0,10)}.png`;
+    link.href=canvas.toDataURL("image/png");
+    document.body.appendChild(link);link.click();link.remove();
+    toast("สร้างภาพสรุปรายการราคาเรียบร้อยแล้ว");
+  }catch(err){console.error(err);toast("ไม่สามารถสร้างภาพสรุปได้ กรุณาลองใหม่อีกครั้ง");}
+  finally{btn.disabled=false;btn.textContent=oldText}
+}
+init();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>
