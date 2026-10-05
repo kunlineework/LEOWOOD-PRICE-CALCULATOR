@@ -83,6 +83,12 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:Prompt,Arial,san
          <div class="customer-field"><label id="lblCustomer">ชื่อลูกค้า / ชื่อบริษัท<input id="customerName" type="text" placeholder="กรอกชื่อลูกค้าหรือชื่อบริษัท"></label></div>
         <div class="grid g3">
           <label id="lblCustomerType">ประเภทราคา<select id="customerType"></select></label>
+           <label id="promoPriceField" style="display:none">ราคาพิเศษ / ตร.ม.
+             <input id="promoPriceSqm" type="number" min="0" step=".01" placeholder="กรอกราคาโปรโมชั่น / ตร.ม.">
+           </label>
+           <label id="promoBoxPriceField" style="display:none">ราคาโปรโมชั่น / กล่อง
+             <input id="promoPriceBox" type="number" min="0" step=".01" placeholder="กรอกราคาโปรโมชั่น / กล่อง">
+           </label>
           <label id="lblModel">รุ่นสินค้า<select id="model"></select></label>
           <label id="lblThickness">ความหนา<select id="thickness"></select></label>
           <label id="lblPattern">รูปแบบการปู<select id="pattern"></select></label>
@@ -188,7 +194,7 @@ const I18N = {
     c2Title: "คำนวณพื้นที่", c2Sub: "กรอกพื้นที่ ตร.ม. ได้โดยตรง ระบบจะรวมพื้นที่และคำนวณจำนวนกล่องอัตโนมัติ",
     c3Title: "ค่าใช้จ่ายเพิ่มเติม", c3Sub: "ระบุเฉพาะรายการที่ต้องการคิดเพิ่มจากราคาสินค้า",
     c4Title: "รายละเอียดราคา", c4Sub: "ตรวจสอบรายละเอียดก่อนสร้างใบเสนอราคา",
-    customerType: "ประเภทราคา", model: "รุ่นสินค้า", thickness: "ความหนา", pattern: "รูปแบบการปู", color: "สี", priceMode: "รูปแบบราคา",
+    customerType: "ประเภทราคา", promoPriceSqm: "ราคาพิเศษ / ตร.ม.", promoPriceBox: "ราคาโปรโมชั่น / กล่อง", model: "รุ่นสินค้า", thickness: "ความหนา", pattern: "รูปแบบการปู", color: "สี", priceMode: "รูปแบบราคา",
     modeInstall: "พร้อมติดตั้ง", modeWood: "เฉพาะสินค้า", addRoom: "＋ เพิ่มพื้นที่ / ห้อง", waste: "เผื่อเศษ",
     waste5: "เผื่อเศษ 5%", waste7: "เผื่อเศษ 7%", waste18: "เผื่อเศษ 18%", actualArea: "พื้นที่จริง", boxes: "จำนวนกล่อง",
     oldFloor: "รื้อพื้นเดิม", level: "Self-Leveling", moving: "ย้าย/ยกของ (บาท)", door: "ตัดตีนประตู (บาน)",
@@ -220,7 +226,7 @@ const I18N = {
     c2Title: "Area Calculation", c2Sub: "Enter area in sq.m. directly. System automatically calculates total area & boxes.",
     c3Title: "Additional Expenses", c3Sub: "Specify extra services or items to include in the calculation.",
     c4Title: "Price Breakdown", c4Sub: "Review details before generating the price summary.",
-    customerType: "Price Type", model: "Model", thickness: "Thickness", pattern: "Pattern", color: "Color", priceMode: "Price Option",
+    customerType: "Price Type", promoPriceSqm: "Promotion Price / sq.m.", promoPriceBox: "Promotion Price / Box", model: "Model", thickness: "Thickness", pattern: "Pattern", color: "Color", priceMode: "Price Option",
     modeInstall: "Includes Installation", modeWood: "Supply Only", addRoom: "＋ Add Area / Room", waste: "Wastage",
     waste5: "5% Wastage", waste7: "7% Wastage", waste18: "18% Wastage", actualArea: "Actual Area", boxes: "Boxes Required",
     oldFloor: "Existing Floor Removal", level: "Self-Leveling", moving: "Item Moving / Handling (THB)", door: "Door Bottom Trimming (Doors)",
@@ -344,21 +350,53 @@ function renderColors(){
   $("color").innerHTML=[...colors, t.colorTBD].map(x=>`<option value="${x}">${x}</option>`).join("")||`<option value="">${t.selectPrompt}</option>`;
 }
 
+function isPromotion(){
+  const t=$("customerType").value;
+  return t==="Special Promotion" || t==="โปรโมชั่นพิเศษ";
+}
+function getPromotionPrices(){
+  const pSqm=num($("promoPriceSqm")?.value);
+  const pBox=num($("promoPriceBox")?.value);
+  return {sqm:pSqm,box:pBox};
+}
+function updatePromotionFields(){
+  const show=isPromotion();
+  const sqmField=$("promoPriceField"), boxField=$("promoBoxPriceField");
+  if(sqmField) sqmField.style.display=show?"flex":"none";
+  if(boxField) boxField.style.display=show?"flex":"none";
+  if(show){
+    if($("promoPriceSqm")) $("promoPriceSqm").required=true;
+    if($("promoPriceBox")) $("promoPriceBox").required=true;
+  }
+}
+function syncWasteForPattern(){
+  const isHerringbone=$("pattern").value==="Herringbone" || $("pattern").value==="ปูก้างปลา";
+  const waste=$("wasteSelect");
+  if(isHerringbone){
+    waste.value="0.18";
+    waste.disabled=true;
+  }else{
+    waste.disabled=false;
+  }
+}
+
 function updateInfo(){
   const t=I18N[currentLang];
   const p=selectedProduct();
+  updatePromotionFields();
+  syncWasteForPattern();
   if(!p){
     $("productInfo").innerHTML=`<b>${t.selectPrompt}</b>`;
     return;
   }
   const mode=$("priceMode").value;
-  const price=mode==="install"?p.install:p.wood;
-  const box=mode==="install"?p.installBox:p.woodBox;
+  const promo=isPromotion();
+  const promoPrices=getPromotionPrices();
+  const price=promo ? promoPrices.sqm : (mode==="install"?p.install:p.wood);
+  const box=promo ? promoPrices.box : (mode==="install"?p.installBox:p.woodBox);
   const modeText=mode==="install"?t.modeInstall:t.modeWood;
-  const cType=$("customerType").value;
-  const promo=cType==="Special Promotion"||cType==="โปรโมชั่นพิเศษ";
   $("productInfo").innerHTML=promo
-    ? `<b>${p.model} ${p.thickness}</b> · ${p.pattern} · ${currentLang==="th"?"ราคานี้ยังไม่มีข้อมูลโปรโมชั่นเพิ่มเติม":"Promotion pricing details pending"}`
+    ? `<b>${p.model} ${p.thickness}</b> · ${p.pattern} · ${t.promoPriceSqm} <b>${money(price)}/${t.sqMeters}</b> · ${t.promoPriceBox} <b>${money(box)}/${currentLang==="th"?"กล่อง":"box"}</b> · 1 ${currentLang==="th"?"กล่องปูได้":"box covers"} ${p.sqmPerBox.toFixed(2)} ${t.sqMeters}`
     : `<b>${p.model} ${p.thickness}</b> · ${p.pattern} · ${modeText} <b>${money(price)}/${t.sqMeters}</b> · <b>${money(box)}/${currentLang==="th"?"กล่อง":"box"}</b> · 1 ${currentLang==="th"?"กล่องปูได้":"box covers"} ${p.sqmPerBox.toFixed(2)} ${t.sqMeters}`;
 }
 
@@ -386,9 +424,10 @@ function calculate(){
   const t=I18N[currentLang];
   const p=selectedProduct(),area=rooms.reduce((s,r)=>s+num(r.area),0),waste=num($("wasteSelect").value);
   const orderArea=area*(1+waste),boxes=p?Math.ceil(orderArea/p.sqmPerBox):0,actual=p?boxes*p.sqmPerBox:0;
-  const cType=$("customerType").value;
-  const promo=cType==="Special Promotion"||cType==="โปรโมชั่นพิเศษ",mode=$("priceMode").value;
-  const price=p&&mode==="install"?p.install:(p?p.wood:0),productTotal=promo?0:actual*price;
+  const promo=isPromotion(),mode=$("priceMode").value;
+  const promoPrices=getPromotionPrices();
+  const price=promo ? promoPrices.sqm : (p&&mode==="install"?p.install:(p?p.wood:0));
+  const productTotal=actual*price;
   const missing=mode==="install"&&area>0&&area<20?20-area:0,minimumFee=missing*300;
   
   const f=$("minAreaExtraField"),r=$("minAreaExtraResult");
@@ -445,6 +484,10 @@ function setLanguage(lang){
   $("lblCustomer").childNodes[0].textContent=t.customer;
   $("customerName").placeholder=t.customerPH;
   $("lblCustomerType").childNodes[0].textContent=t.customerType;
+  $("promoPriceField").childNodes[0].textContent=t.promoPriceSqm;
+  $("promoBoxPriceField").childNodes[0].textContent=t.promoPriceBox;
+  $("promoPriceSqm").placeholder=currentLang==="th"?"กรอกราคาโปรโมชั่น / ตร.ม.":"Enter promotion price / sq.m.";
+  $("promoPriceBox").placeholder=currentLang==="th"?"กรอกราคาโปรโมชั่น / กล่อง":"Enter promotion price / box";
   $("lblModel").childNodes[0].textContent=t.model;
   $("lblThickness").childNodes[0].textContent=t.thickness;
   $("lblPattern").childNodes[0].textContent=t.pattern;
@@ -501,16 +544,20 @@ function init(){
   renderModels(false);
   renderRooms();
   bind();
+  updatePromotionFields();
+  syncWasteForPattern();
   calculate();
 }
 
 function bind(){
-  $("customerType").onchange=()=>{renderModels(false);calculate()};
+  $("customerType").onchange=()=>{renderModels(false);updatePromotionFields();updateInfo();calculate()};
   $("model").onchange=()=>{renderThicknesses(false);calculate()};
   $("thickness").onchange=()=>{renderPatterns();calculate()};
-  $("pattern").onchange=()=>{renderColors();updateInfo();calculate()};
+  $("pattern").onchange=()=>{renderColors();syncWasteForPattern();updateInfo();calculate()};
   $("priceMode").onchange=()=>{updateInfo();calculate()};
-  ["customerName","color","oldFloorQty","levelQty","movingQty","doorQty","oldSkirtingQty","travel"].forEach(id=>{const el=$(id);if(el)el.oninput=calculate;});
+  ["customerName","color","oldFloorQty","levelQty","movingQty","doorQty","oldSkirtingQty","travel","promoPriceSqm","promoPriceBox"].forEach(id=>{
+    const el=$(id); if(el) el.oninput=()=>{updateInfo();calculate();};
+  });
   ["wasteSelect","oldFloorType","levelType"].forEach(id=>$(id).onchange=calculate);
   $("addRoom").onclick=()=>{
     const numRoom = rooms.length + 1;
@@ -537,8 +584,9 @@ function buildSummaryImage(){
   const customer=$("customerName").value.trim()||t.defaultCustomer;
   const priceType=$("customerType").value;
   const modeText=$("priceMode").value==="install"?t.modeInstall:t.modeWood;
-  const price=$("priceMode").value==="install"?p.install:p.wood;
-  const boxPrice=$("priceMode").value==="install"?p.installBox:p.woodBox;
+  const promo=isPromotion(), promoPrices=getPromotionPrices();
+  const price=promo ? promoPrices.sqm : ($("priceMode").value==="install"?p.install:p.wood);
+  const boxPrice=promo ? promoPrices.box : ($("priceMode").value==="install"?p.installBox:p.woodBox);
   
   const roomRows=rooms.filter(r=>num(r.area)>0).map(r=>{
     const rName = currentLang==="th"?(r.nameTh||r.name):(r.nameEn||r.name);
