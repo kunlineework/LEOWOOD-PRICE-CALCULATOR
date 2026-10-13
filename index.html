@@ -87,7 +87,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:Prompt,Arial,san
              <input id="promoPriceSqm" type="number" min="0" step=".01" placeholder="กรอกราคาโปรโมชั่น / ตร.ม.">
            </label>
            <label id="promoBoxPriceField" style="display:none">ราคาโปรโมชั่น / กล่อง
-             <input id="promoPriceBox" type="number" min="0" step=".01" placeholder="กรอกราคาโปรโมชั่น / กล่อง">
+             <input id="promoPriceBox" type="number" min="0" step=".01" placeholder="คำนวณอัตโนมัติ" readonly>
            </label>
           <label id="lblModel">รุ่นสินค้า<select id="model"></select></label>
           <label id="lblThickness">ความหนา<select id="thickness"></select></label>
@@ -120,6 +120,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:Prompt,Arial,san
           <label id="lblMoving">ย้าย/ยกของ (บาท)<input id="movingQty" type="number" min="0" step="1" value="0"></label>
           <label id="lblDoor">ตัดตีนประตู (บาน)<input id="doorQty" type="number" min="0" step="1" value="0"></label>
           <label id="lblOldSkirting">รื้อบัวเดิม (เมตร)<input id="oldSkirtingQty" type="number" min="0" step=".01" value="0"></label>
+          <label id="lblEmbedSkirting" style="display:none">ค่าบริการเพิ่มบัวเชิงผนัง<select id="embedSkirtingType"></select><input id="embedSkirtingQty" type="number" min="0" step="1" value="0" placeholder="จำนวนเส้น"></label>
           <label id="lblTravel">ค่าเดินทาง (บาท)<input id="travel" type="number" min="0" step="1" value="0"></label>
           <label id="minAreaExtraField" style="display:none"><span id="lblMinAreaTitle">กรณีพื้นที่ต่ำกว่า 20 ตร.ม.</span><div id="minAreaExtraResult" class="min-area-result"></div></label>
           <label id="lblLowAreaCharge">กรณีพื้นที่ต่ำกว่า 20 ตร.ม.<input id="lowAreaCharge" type="text" value="" readonly></label>
@@ -199,7 +200,7 @@ const I18N = {
     modeInstall: "พร้อมติดตั้ง", modeWood: "เฉพาะสินค้า", addRoom: "＋ เพิ่มพื้นที่ / ห้อง", waste: "เผื่อเศษ",
     waste5: "เผื่อเศษ 5%", waste7: "เผื่อเศษ 7%", waste18: "เผื่อเศษ 18%", actualArea: "พื้นที่จริง", boxes: "จำนวนกล่อง",
     oldFloor: "รื้อพื้นเดิม", level: "Self-Leveling", moving: "ย้าย/ยกของ (บาท)", door: "ตัดตีนประตู (บาน)",
-    oldSkirting: "รื้อบัวเดิม (เมตร)", travel: "ค่าเดินทาง (บาท)", minAreaTitle: "กรณีพื้นที่ต่ำกว่า 20 ตร.ม.", lowAreaCharge: "กรณีพื้นที่ต่ำกว่า 20 ตร.ม.",
+    oldSkirting: "รื้อบัวเดิม (เมตร)", embedSkirting: "ค่าบริการเพิ่มบัวเชิงผนัง", embedQtyPH: "จำนวนเส้น", skirtingUnit: "เส้น", travel: "ค่าเดินทาง (บาท)", minAreaTitle: "กรณีพื้นที่ต่ำกว่า 20 ตร.ม.", lowAreaCharge: "กรณีพื้นที่ต่ำกว่า 20 ตร.ม.",
     lowAreaChargeDefault: "ครบ 20 ตร.ม. — ไม่เสียส่วนต่าง", grandTotal: "ยอดสุทธิ / NET TOTAL", sumArea: "พื้นที่",
     sumBoxes: "จำนวนสินค้า", sumProduct: "ค่าสินค้า", sumExtra: "ค่าใช้จ่ายเพิ่มเติม", sumDiscount: "ส่วนลด",
     sumTotal: "รวมทั้งสิ้น", pngSub: "สร้างเป็นไฟล์ PNG สำหรับส่งให้ลูกค้าทาง LINE หรือแชต", roomName: "ชื่อพื้นที่",
@@ -216,7 +217,7 @@ const I18N = {
     siNote: "ราคานี้เป็นราคาประมาณการ และอาจเปลี่ยนแปลงตามการประเมินหน้างานและเงื่อนไขการขายจริง",
     noRoomEntered: "ยังไม่ได้ระบุพื้นที่", defaultCustomer: "ไม่ได้ระบุชื่อ",
     extraMinArea: "กรณีพื้นที่ต่ำกว่า 20 ตร.ม.", extraOldFloor: "รื้อพื้นเดิม", extraLevel: "Self-Leveling", extraMoving: "ย้าย/ยกของ",
-    extraDoor: "ตัดตีนประตู", extraOldSkirting: "รื้อบัวเดิม", extraSk3: "บัว 3 นิ้ว", extraSk4: "บัว 4 นิ้ว", extraEnd: "ตัวจบ", extraTravel: "ค่าเดินทาง"
+    extraDoor: "ตัดตีนประตู", extraOldSkirting: "รื้อบัวเดิม", extraEmbed: "ค่าบริการเพิ่มบัวเชิงผนัง", extraSk3: "บัว 3 นิ้ว", extraSk4: "บัว 4 นิ้ว", extraEnd: "ตัวจบ", extraTravel: "ค่าเดินทาง"
   },
   en: {
     heroTitle: "Flooring & Price Calculator", heroSub: "Calculate flooring quantity, additional costs, and quotation totals in one place.",
@@ -231,7 +232,7 @@ const I18N = {
     modeInstall: "Includes Installation", modeWood: "Supply Only", addRoom: "＋ Add Area / Room", waste: "Wastage",
     waste5: "5% Wastage", waste7: "7% Wastage", waste18: "18% Wastage", actualArea: "Actual Area", boxes: "Boxes Required",
     oldFloor: "Existing Floor Removal", level: "Self-Leveling", moving: "Item Moving / Handling (THB)", door: "Door Bottom Trimming (Doors)",
-    oldSkirting: "Existing Skirting Removal (m)", travel: "Transportation Fee (THB)", minAreaTitle: "For areas under 20 sq.m.", lowAreaCharge: "Surcharge for Area < 20 sq.m.",
+    oldSkirting: "Existing Skirting Removal (m)", embedSkirting: "Skirting Board Service", embedQtyPH: "Quantity (pcs)", skirtingUnit: "pcs", travel: "Transportation Fee (THB)", minAreaTitle: "For areas under 20 sq.m.", lowAreaCharge: "Surcharge for Area < 20 sq.m.",
     lowAreaChargeDefault: "Area ≥ 20 sq.m. — No minimum fee", grandTotal: "NET TOTAL", sumArea: "Area",
     sumBoxes: "Product Quantity", sumProduct: "Product Cost", sumExtra: "Additional Costs", sumDiscount: "Discount",
     sumTotal: "Grand Total", pngSub: "Creates a PNG file for sending to customers via chat.", roomName: "Area Name",
@@ -248,7 +249,7 @@ const I18N = {
     siNote: "This price summary is an estimate and subject to final site inspection and sales terms.",
     noRoomEntered: "No area specified", defaultCustomer: "N/A",
     extraMinArea: "Minimum Area Surcharge (<20 sq.m.)", extraOldFloor: "Existing Floor Removal", extraLevel: "Self-Leveling", extraMoving: "Item Moving / Handling",
-    extraDoor: "Door Bottom Trimming", extraOldSkirting: "Existing Skirting Removal", extraSk3: "3\" Skirting", extraSk4: "4\" Skirting", extraEnd: "Finishing", extraTravel: "Transportation Fee"
+    extraDoor: "Door Bottom Trimming", extraOldSkirting: "Existing Skirting Removal", extraEmbed: "Skirting Board Service", extraSk3: "3\" Skirting", extraSk4: "4\" Skirting", extraEnd: "Finishing", extraTravel: "Transportation Fee"
   }
 };
 
@@ -259,6 +260,13 @@ const OLD_FLOOR_OPTIONS = [
   {val: "80", th: "รื้อพื้น SPC เดิม (แบบคลิ๊กล็อค) — 80 บาท/ตร.ม.", en: "Existing SPC Removal (Click-Lock) — ฿80/sq.m."},
   {val: "150", th: "รื้อกระเบื้องยางทากาว — 150 บาท/ตร.ม.", en: "Glue-down LVT Removal — ฿150/sq.m."},
   {val: "150", th: "รื้อพื้นปาร์เก้ — 150 บาท/ตร.ม.", en: "Parquet Floor Removal — ฿150/sq.m."}
+];
+
+const SKIRTING_EMBED_OPTIONS = [
+  {val: "0", th: "ไม่เพิ่ม", en: "None"},
+  {val: "120", th: "บัวขนาด 2 นิ้ว — 120 บาท/เส้น", en: "2\" Skirting — ฿120/pc"},
+  {val: "135", th: "บัวขนาด 3 นิ้ว — 135 บาท/เส้น", en: "3\" Skirting — ฿135/pc"},
+  {val: "150", th: "บัวขนาด 4 นิ้ว — 150 บาท/เส้น", en: "4\" Skirting — ฿150/pc"}
 ];
 
 const LEVEL_OPTIONS = [
@@ -357,7 +365,11 @@ function isPromotion(){
 }
 function getPromotionPrices(){
   const pSqm=num($("promoPriceSqm")?.value);
-  const pBox=num($("promoPriceBox")?.value);
+  const prod=selectedProduct();
+  const boxEl=$("promoPriceBox");
+  // ราคาโปรโมชั่น / กล่อง = ราคาพิเศษ / ตร.ม. × พื้นที่ต่อกล่อง (สีไม่มีผลกับราคา)
+  const pBox=(pSqm>0&&prod)?Math.round(pSqm*prod.sqmPerBox*100)/100:0;
+  if(boxEl&&isPromotion()) boxEl.value=pBox>0?String(pBox):"";
   return {sqm:pSqm,box:pBox};
 }
 function updatePromotionFields(){
@@ -367,7 +379,6 @@ function updatePromotionFields(){
   if(boxField) boxField.style.display=show?"flex":"none";
   if(show){
     if($("promoPriceSqm")) $("promoPriceSqm").required=true;
-    if($("promoPriceBox")) $("promoPriceBox").required=true;
   }
 }
 function syncWasteForPattern(){
@@ -444,6 +455,13 @@ function calculate(){
   const levelObj = LEVEL_OPTIONS.find(o=>o.val===$("levelType").value);
   const levelName = levelObj ? (currentLang==="th"?levelObj.th:levelObj.en) : "";
 
+  const embedObj = SKIRTING_EMBED_OPTIONS.find(o=>o.val===$("embedSkirtingType").value);
+  const embedName = embedObj ? (currentLang==="th"?embedObj.th:embedObj.en) : "";
+  const embedField=$("lblEmbedSkirting");
+  if(embedField) embedField.style.display=mode==="wood"?"flex":"none";
+  const embedQty=mode==="wood"?num($("embedSkirtingQty").value):0;
+  const embedPrice=mode==="wood"?num($("embedSkirtingType").value):0;
+
   const extras=[
     [t.extraMinArea, minimumFee, `${currentLang==="th"?"พื้นที่ขาด":"Short by"} ${missing.toFixed(2)} ${t.sqMeters} × ฿300`],
     [t.extraOldFloor, num($("oldFloorQty").value)*num($("oldFloorType").value), `${oldFloorName} · ${num($("oldFloorQty").value).toFixed(2)} ${t.sqMeters}`],
@@ -452,6 +470,7 @@ function calculate(){
     [t.extraMoving, num($("movingQty").value), money(num($("movingQty").value))],
     [t.extraDoor, num($("doorQty").value)*500, `${num($("doorQty").value)} ${t.pcsUnit} × ฿500`],
     [t.extraOldSkirting, num($("oldSkirtingQty").value)*20, `${num($("oldSkirtingQty").value).toFixed(2)} ${t.metersUnit} × ฿20`],
+    [t.extraEmbed, embedQty*embedPrice, `${embedName} · ${embedQty} ${t.skirtingUnit} × ฿${embedPrice}`],
     [t.extraTravel, num($("travel").value), ""]
   ];
 
@@ -491,7 +510,7 @@ function setLanguage(lang){
   $("promoPriceField").childNodes[0].textContent=t.promoPriceSqm;
   $("promoBoxPriceField").childNodes[0].textContent=t.promoPriceBox;
   $("promoPriceSqm").placeholder=currentLang==="th"?"กรอกราคาโปรโมชั่น / ตร.ม.":"Enter promotion price / sq.m.";
-  $("promoPriceBox").placeholder=currentLang==="th"?"กรอกราคาโปรโมชั่น / กล่อง":"Enter promotion price / box";
+  $("promoPriceBox").placeholder=currentLang==="th"?"คำนวณอัตโนมัติ":"Auto-calculated";
   $("lblModel").childNodes[0].textContent=t.model;
   $("lblThickness").childNodes[0].textContent=t.thickness;
   $("lblPattern").childNodes[0].textContent=t.pattern;
@@ -525,6 +544,11 @@ function setLanguage(lang){
   $("lblMoving").childNodes[0].textContent=t.moving;
   $("lblDoor").childNodes[0].textContent=t.door;
   $("lblOldSkirting").childNodes[0].textContent=t.oldSkirting;
+  $("lblEmbedSkirting").childNodes[0].textContent=t.embedSkirting;
+  { const cur=$("embedSkirtingType").value;
+    $("embedSkirtingType").innerHTML=SKIRTING_EMBED_OPTIONS.map(o=>`<option value="${o.val}">${currentLang==="th"?o.th:o.en}</option>`).join("");
+    $("embedSkirtingType").value=cur||"0"; }
+  $("embedSkirtingQty").placeholder=t.embedQtyPH;
   $("lblTravel").childNodes[0].textContent=t.travel;
   $("lblMinAreaTitle").textContent=t.minAreaTitle;
   $("lblLowAreaCharge").childNodes[0].textContent=t.lowAreaCharge;
@@ -563,10 +587,10 @@ function bind(){
   $("thickness").onchange=()=>{renderPatterns();calculate()};
   $("pattern").onchange=()=>{renderColors();syncWasteForPattern();updateInfo();calculate()};
   $("priceMode").onchange=()=>{updateInfo();calculate()};
-  ["customerName","color","oldFloorQty","oldFloorQty2","levelQty","movingQty","doorQty","oldSkirtingQty","travel","promoPriceSqm","promoPriceBox"].forEach(id=>{
+  ["customerName","color","oldFloorQty","oldFloorQty2","levelQty","movingQty","doorQty","oldSkirtingQty","embedSkirtingQty","travel","promoPriceSqm","promoPriceBox"].forEach(id=>{
     const el=$(id); if(el) el.oninput=()=>{updateInfo();calculate();};
   });
-  ["wasteSelect","oldFloorType","oldFloorType2","levelType"].forEach(id=>$(id).onchange=calculate);
+  ["wasteSelect","oldFloorType","oldFloorType2","levelType","embedSkirtingType"].forEach(id=>$(id).onchange=calculate);
   $("addRoom").onclick=()=>{
     const numRoom = rooms.length + 1;
     rooms.push({nameTh:`พื้นที่ ${numRoom}`, nameEn:`Area ${numRoom}`, area:0});
