@@ -103,7 +103,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:Prompt,Arial,san
         <div id="rooms"></div>
         <button class="add-btn" id="addRoom">＋ เพิ่มพื้นที่ / ห้อง</button>
         <div class="grid g2" style="margin-top:14px">
-          <label id="lblWaste">เผื่อเศษ<select id="wasteSelect"><option value="0.05">เผื่อเศษ 5%</option><option value="0.07">เผื่อเศษ 7%</option><option value="0.18">เผื่อเศษ 18%</option></select></label>
+          <label id="lblWaste">เผื่อเศษ<select id="wasteSelect"><option value="0.05">เผื่อเศษ 5%</option><option value="0.07">เผื่อเศษ 7%</option><option value="0.18">เผื่อเศษ 18%</option><option value="0">ไม่เผื่อเศษ</option></select></label>
           <div class="metric"><small id="lblActualArea">พื้นที่จริง</small><b id="areaTotal">0.00 ตร.ม.</b></div>
         </div>
         <div class="area-box" style="grid-template-columns:1fr;margin-top:10px">
@@ -198,7 +198,7 @@ const I18N = {
     c4Title: "รายละเอียดราคา", c4Sub: "ตรวจสอบรายละเอียดก่อนสร้างใบเสนอราคา",
     customerType: "ประเภทราคา", promoPriceSqm: "ราคาพิเศษ / ตร.ม.", promoPriceBox: "ราคาโปรโมชั่น / กล่อง", model: "รุ่นสินค้า", thickness: "ความหนา", pattern: "รูปแบบการปู", color: "สี", priceMode: "รูปแบบราคา",
     modeInstall: "พร้อมติดตั้ง", modeWood: "เฉพาะสินค้า", addRoom: "＋ เพิ่มพื้นที่ / ห้อง", waste: "เผื่อเศษ",
-    waste5: "เผื่อเศษ 5%", waste7: "เผื่อเศษ 7%", waste18: "เผื่อเศษ 18%", actualArea: "พื้นที่จริง", boxes: "จำนวนกล่อง",
+    waste5: "เผื่อเศษ 5%", waste7: "เผื่อเศษ 7%", waste18: "เผื่อเศษ 18%", waste0: "ไม่เผื่อเศษ", waste0Detail: "ไม่ต้องเผื่อเปอร์เซ็น", actualArea: "พื้นที่จริง", boxes: "จำนวนกล่อง",
     oldFloor: "รื้อพื้นเดิม", level: "Self-Leveling", moving: "ย้าย/ยกของ (บาท)", door: "ตัดตีนประตู (บาน)",
     oldSkirting: "รื้อบัวเดิม (เมตร)", embedSkirting: "ค่าบริการเพิ่มบัวเชิงผนัง", embedQtyPH: "จำนวนเส้น", skirtingUnit: "เส้น", travel: "ค่าเดินทาง (บาท)", minAreaTitle: "กรณีพื้นที่ต่ำกว่า 20 ตร.ม.", lowAreaCharge: "กรณีพื้นที่ต่ำกว่า 20 ตร.ม.",
     lowAreaChargeDefault: "ครบ 20 ตร.ม. — ไม่เสียส่วนต่าง", grandTotal: "ยอดสุทธิ / NET TOTAL", sumArea: "พื้นที่",
@@ -230,7 +230,7 @@ const I18N = {
     c4Title: "Price Breakdown", c4Sub: "Review details before generating the price summary.",
     customerType: "Price Type", promoPriceSqm: "Promotion Price / sq.m.", promoPriceBox: "Promotion Price / Box", model: "Model", thickness: "Thickness", pattern: "Pattern", color: "Color", priceMode: "Price Option",
     modeInstall: "Includes Installation", modeWood: "Supply Only", addRoom: "＋ Add Area / Room", waste: "Wastage",
-    waste5: "5% Wastage", waste7: "7% Wastage", waste18: "18% Wastage", actualArea: "Actual Area", boxes: "Boxes Required",
+    waste5: "5% Wastage", waste7: "7% Wastage", waste18: "18% Wastage", waste0: "No Wastage", waste0Detail: "No wastage allowance", actualArea: "Actual Area", boxes: "Boxes Required",
     oldFloor: "Existing Floor Removal", level: "Self-Leveling", moving: "Item Moving / Handling (THB)", door: "Door Bottom Trimming (Doors)",
     oldSkirting: "Existing Skirting Removal (m)", embedSkirting: "Skirting Board Service", embedQtyPH: "Quantity (pcs)", skirtingUnit: "pcs", travel: "Transportation Fee (THB)", minAreaTitle: "For areas under 20 sq.m.", lowAreaCharge: "Surcharge for Area < 20 sq.m.",
     lowAreaChargeDefault: "Area ≥ 20 sq.m. — No minimum fee", grandTotal: "NET TOTAL", sumArea: "Area",
@@ -525,6 +525,7 @@ function setLanguage(lang){
   $("wasteSelect").options[0].text=t.waste5;
   $("wasteSelect").options[1].text=t.waste7;
   $("wasteSelect").options[2].text=t.waste18;
+  $("wasteSelect").options[3].text=t.waste0;
   
   $("lblActualArea").textContent=t.actualArea;
   $("lblBoxes").textContent=t.boxes;
@@ -644,7 +645,7 @@ function buildSummaryImage(){
     </div></div>
     <div class="si-section"><div class="si-section-title">${t.siAreaQty}</div><div class="si-room-head"><div>${t.siAreaName}</div><div>${t.siActualArea}</div><div>${t.siWastageArea}</div></div>${roomRows}<div class="si-grid">
       <div class="si-cell"><div class="si-label">${t.siTotalActual}</div><div class="si-value">${c.area.toFixed(2)} ${t.sqMeters}</div></div>
-      <div class="si-cell"><div class="si-label">${t.waste}</div><div class="si-value">${(c.waste*100).toFixed(0)}%</div></div>
+      <div class="si-cell"><div class="si-label">${t.waste}</div><div class="si-value">${c.waste>0?(c.waste*100).toFixed(0)+"%":t.waste0Detail}</div></div>
       <div class="si-cell"><div class="si-label">${t.siBoxesReq}</div><div class="si-value">${c.boxes} ${t.boxesUnit}</div></div>
     </div></div>
     ${extrasSection}
