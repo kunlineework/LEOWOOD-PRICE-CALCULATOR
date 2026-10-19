@@ -384,12 +384,10 @@ function updatePromotionFields(){
 function syncWasteForPattern(){
   const isHerringbone=$("pattern").value==="Herringbone" || $("pattern").value==="ปูก้างปลา";
   const waste=$("wasteSelect");
-  if(isHerringbone){
-    waste.value="0.18";
-    waste.disabled=true;
-  }else{
-    waste.disabled=false;
-  }
+  waste.disabled=false;
+  // ปูก้างปลา: เลือกได้เฉพาะ เผื่อเศษ 18% หรือ ไม่เผื่อเศษ (ค่าเริ่มต้น 18%)
+  Array.from(waste.options).forEach(o=>{o.disabled=isHerringbone&&(o.value==="0.05"||o.value==="0.07")});
+  if(isHerringbone&&(waste.value==="0.05"||waste.value==="0.07")) waste.value="0.18";
 }
 
 function updateInfo(){
